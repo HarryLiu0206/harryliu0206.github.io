@@ -41,9 +41,16 @@
         html {
             scroll-behavior: smooth;
         }
-        /* 全局过渡 */
         * {
             transition: all 0.25s ease;
+        }
+        .article-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+        }
+        .article-content.open {
+            max-height: 2000px;
         }
     </style>
 </head>
@@ -93,20 +100,47 @@
             </div>
         </section>
 
-        <!-- 博客文章列表 -->
+        <!-- 博客文章列表（点击展开，静态无后端） -->
         <section class="bg-white dark:bg-darkcard rounded-2xl p-8 card-shadow dark:dark-card-shadow mb-8">
             <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
                 <i class="fa fa-book text-primary"></i>博客文章
             </h2>
             <div class="space-y-4">
-                <a href="#" class="block group p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800">
-                    <h3 class="font-semibold group-hover:text-primary">C++ 基础算法学习笔记</h3>
+                <!-- 文章1 -->
+                <div class="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer article-item">
+                    <h3 class="font-semibold group-hover:text-primary flex justify-between items-center">
+                        C++ 基础算法学习笔记
+                        <i class="fa fa-chevron-down transition-transform article-arrow"></i>
+                    </h3>
                     <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">记录基础排序、查找算法的学习过程</p>
-                </a>
-                <a href="#" class="block group p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800">
-                    <h3 class="font-semibold group-hover:text-primary">个人网站搭建实战记录</h3>
+                    <div class="article-content mt-4 text-slate-700 dark:text-slate-300 leading-relaxed">
+                        <p>## 基础排序算法</p>
+                        <p>本节学习冒泡排序、选择排序与插入排序。</p>
+                        <pre class="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg my-3 overflow-x-auto text-sm"><code>// 冒泡排序示例
+void bubbleSort(int a[], int n){
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-1-i;j++){
+            if(a[j]>a[j+1]) swap(a[j],a[j+1]);
+        }
+    }
+}</code></pre>
+                        <p>冒泡排序核心思想：相邻元素比较交换，每一轮把最大值“浮”到数组末尾。</p>
+                    </div>
+                </div>
+
+                <!-- 文章2 -->
+                <div class="group p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer article-item">
+                    <h3 class="font-semibold group-hover:text-primary flex justify-between items-center">
+                        个人网站搭建实战记录
+                        <i class="fa fa-chevron-down transition-transform article-arrow"></i>
+                    </h3>
                     <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">从零搭建静态个人主页，主题切换实现</p>
-                </a>
+                    <div class="article-content mt-4 text-slate-700 dark:text-slate-300 leading-relaxed">
+                        <p>本次搭建纯静态个人主页，无需后端，使用HTML+TailwindCSS+少量JS。</p>
+                        <p>功能：暗色模式本地存储、滚动入场动画、静态文章展开。</p>
+                        <p>托管推荐：Github Pages / Vercel，直接上传静态文件即可上线。</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -120,7 +154,7 @@
                     <i class="fa fa-code-fork text-primary"></i>
                     <span>AcPro 主页</span>
                 </a>
-                <a href="https://luogu.com.cn/user/1397724" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/30">
+		<a href="https://luogu.com.cn/user/1397724" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/30">
                     <i class="fa fa-code-fork text-primary"></i>
                     <span>Luogu 主页</span>
                 </a>
@@ -151,22 +185,15 @@
         // 暗色模式本地存储记忆
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
-
-        // 读取本地存储主题
         if(localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)){
             html.classList.add('dark');
         }
-
         themeToggle.addEventListener('click', ()=>{
             html.classList.toggle('dark');
-            if(html.classList.contains('dark')){
-                localStorage.setItem('theme','dark');
-            }else{
-                localStorage.setItem('theme','light');
-            }
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
         })
 
-        // 卡片进入视口淡入动画
+        // 卡片滚动入场动画
         const cards = document.querySelectorAll('section,header');
         const observer = new IntersectionObserver((entries)=>{
             entries.forEach(item=>{
@@ -176,11 +203,24 @@
                 }
             })
         },{threshold:0.1})
-
         cards.forEach(card=>{
             card.style.opacity = 0;
             card.style.transform = "translateY(12px)";
             observer.observe(card);
+        })
+
+        // 文章展开/折叠逻辑（无后端核心代码）
+        document.querySelectorAll('.article-item').forEach(item=>{
+            item.addEventListener('click', function(){
+                const content = this.querySelector('.article-content');
+                const arrow = this.querySelector('.article-arrow');
+                content.classList.toggle('open');
+                if(content.classList.contains('open')){
+                    arrow.style.transform = "rotate(180deg)";
+                }else{
+                    arrow.style.transform = "rotate(0)";
+                }
+            })
         })
     </script>
 </body>
