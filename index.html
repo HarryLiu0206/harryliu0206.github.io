@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人技术博客主页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b',
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .card-shadow {
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            }
+            .dark-card-shadow {
+                box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            }
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* 全局过渡 */
+        * {
+            transition: all 0.25s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-10">
+        <!-- 顶部导航栏 -->
+        <nav class="flex justify-between items-center mb-10">
+            <div class="font-mono text-xl font-bold">Tech.Blog</div>
+            <button id="themeToggle" class="p-2 rounded-lg bg-slate-200 dark:bg-darkcard hover:scale-105">
+                <i class="fa fa-moon-o dark:hidden text-lg"></i>
+                <i class="fa fa-sun-o hidden dark:block text-lg"></i>
+            </button>
+        </nav>
+
+        <!-- 头部个人信息 -->
+        <header class="bg-white dark:bg-darkcard rounded-2xl p-8 card-shadow dark:dark-card-shadow mb-8">
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <img src="avatar.png" alt="头像" class="w-28 h-28 rounded-full object-cover ring-4 ring-primary/20">
+                <div class="text-center md:text-left">
+                    <h1 class="text-[clamp(2rem,4vw,2.5rem)] font-bold bg-gradient-to-r from-blue-500 to-cyan-400 text-gradient">刘子阳</h1>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2 text-lg">编程爱好者 · 算法练习 · 技术记录</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- 个人简介 -->
+        <section class="bg-white dark:bg-darkcard rounded-2xl p-8 card-shadow dark:dark-card-shadow mb-8">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fa fa-user-circle text-primary"></i>个人简介
+            </h2>
+            <p class="leading-relaxed text-slate-700 dark:text-slate-300">
+                热爱信息学，持续练习算法与编程。课余时间喜欢钻研各类计算机相关知识，乐于动手实践，不断学习提升。喜欢记录学习心得，分享技术笔记。
+            </p>
+        </section>
+
+        <!-- 技能栈 -->
+        <section class="bg-white dark:bg-darkcard rounded-2xl p-8 card-shadow dark:dark-card-shadow mb-8">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fa fa-code text-primary"></i>技能栈
+            </h2>
+            <div class="flex flex-wrap gap-3">
+                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/40 text-primary rounded-full text-sm">C++</span>
+                <span class="px-3 py-1 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-full text-sm">算法</span>
+                <span class="px-3 py-1 bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 rounded-full text-sm">HTML/CSS</span>
+                <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-full text-sm">JavaScript</span>
+                <span class="px-3 py-1 bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 rounded-full text-sm">Linux</span>
+            </div>
+        </section>
+
+        <!-- 博客文章列表 -->
+        <section class="bg-white dark:bg-darkcard rounded-2xl p-8 card-shadow dark:dark-card-shadow mb-8">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fa fa-book text-primary"></i>博客文章
+            </h2>
+            <div class="space-y-4">
+                <a href="#" class="block group p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800">
+                    <h3 class="font-semibold group-hover:text-primary">C++ 基础算法学习笔记</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">记录基础排序、查找算法的学习过程</p>
+                </a>
+                <a href="#" class="block group p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary hover:bg-slate-50 dark:hover:bg-slate-800">
+                    <h3 class="font-semibold group-hover:text-primary">个人网站搭建实战记录</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">从零搭建静态个人主页，主题切换实现</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- 更多信息 -->
+        <section class="bg-white dark:bg-darkcard rounded-2xl p-8 card-shadow dark:dark-card-shadow mb-8">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i class="fa fa-info-circle text-primary"></i>更多信息
+            </h2>
+            <div class="space-y-3">
+                <a href="https://acpro.cc/user/78" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/30">
+                    <i class="fa fa-code-fork text-primary"></i>
+                    <span>AcPro 主页</span>
+                </a>
+                <a href="https://github.com/HarryLiu0206/" target="_blank" class="flex items-center gap-3 p-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/30">
+                    <i class="fa fa-github text-primary"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="mailto:2751114992@qq.com" class="flex items-center gap-3 p-3 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-900/30">
+                    <i class="fa fa-envelope text-primary"></i>
+                    <span>邮箱：2751114992@qq.com</span>
+                </a>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">
+                <h3 class="font-semibold mb-2">兴趣与状态</h3>
+                <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                    正在学习算法竞赛，业余爱好网页开发、计算机底层知识。喜欢阅读技术文档，动手搭建各类小项目。
+                </p>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="text-center text-slate-500 dark:text-slate-400 py-4">
+            <p>© 2026 · 技术博客 | 静态个人主页</p>
+        </footer>
+    </div>
+
+    <script>
+        // 暗色模式本地存储记忆
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // 读取本地存储主题
+        if(localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+            html.classList.add('dark');
+        }
+
+        themeToggle.addEventListener('click', ()=>{
+            html.classList.toggle('dark');
+            if(html.classList.contains('dark')){
+                localStorage.setItem('theme','dark');
+            }else{
+                localStorage.setItem('theme','light');
+            }
+        })
+
+        // 卡片进入视口淡入动画
+        const cards = document.querySelectorAll('section,header');
+        const observer = new IntersectionObserver((entries)=>{
+            entries.forEach(item=>{
+                if(item.isIntersecting){
+                    item.target.style.opacity = 1;
+                    item.target.style.transform = "translateY(0)";
+                }
+            })
+        },{threshold:0.1})
+
+        cards.forEach(card=>{
+            card.style.opacity = 0;
+            card.style.transform = "translateY(12px)";
+            observer.observe(card);
+        })
+    </script>
+</body>
+</html>
